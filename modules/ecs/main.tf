@@ -38,7 +38,7 @@ resource "aws_iam_role" "ecs_task_role" {
 EOF
 }
 
-resource "aws_iam_policy" "dynamodb" {
+/*resource "aws_iam_policy" "dynamodb" {
   name        = "${var.name}-task-policy-dynamodb"
   description = "Policy that allows access to DynamoDB"
 
@@ -67,8 +67,8 @@ resource "aws_iam_policy" "dynamodb" {
 }
 EOF
 }
-
-resource "aws_iam_policy" "secrets" {
+*/
+/*resource "aws_iam_policy" "secrets" {
   name        = "${var.name}-task-policy-secrets"
   description = "Policy that allows access to the secrets we created"
 
@@ -89,21 +89,21 @@ resource "aws_iam_policy" "secrets" {
 EOF
 }
 
-
+*/
 resource "aws_iam_role_policy_attachment" "ecs-task-execution-role-policy-attachment" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-resource "aws_iam_role_policy_attachment" "ecs-task-role-policy-attachment" {
+/*resource "aws_iam_role_policy_attachment" "ecs-task-role-policy-attachment" {
   role       = aws_iam_role.ecs_task_role.name
   policy_arn = aws_iam_policy.dynamodb.arn
-}
+}*/
 
-resource "aws_iam_role_policy_attachment" "ecs-task-role-policy-attachment-for-secrets" {
+/*resource "aws_iam_role_policy_attachment" "ecs-task-role-policy-attachment-for-secrets" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.secrets.arn
-}
+}*/
 
 resource "aws_cloudwatch_log_group" "main" {
   name = "/ecs/${var.name}-task-${var.environment}"
@@ -140,7 +140,7 @@ resource "aws_ecs_task_definition" "main" {
         awslogs-region        = var.region
       }
     }
-    secrets = var.container_secrets
+    #secrets = var.container_secrets
   }])
 
   tags = {

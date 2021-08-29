@@ -30,7 +30,7 @@ provider "aws" {
 }*/
 
 module "vpc" {
-  source             = "./vpc"
+  source             = "/Users/sanj/Documents/production/tf-ecs-fargate-tmpl/modules/vpc"
   name               = var.name
   cidr               = var.cidr
   private_subnets    = var.private_subnets
@@ -40,7 +40,7 @@ module "vpc" {
 }
 
 module "security_groups" {
-  source         = "./security-groups"
+  source         = "/Users/sanj/Documents/production/tf-ecs-fargate-tmpl/modules/security-groups"
   name           = var.name
   vpc_id         = module.vpc.id
   environment    = var.environment
@@ -48,7 +48,7 @@ module "security_groups" {
 }
 
 module "alb" {
-  source              = "./alb"
+  source              = "/Users/sanj/Documents/production/tf-ecs-fargate-tmpl/modules/alb"
   name                = var.name
   vpc_id              = module.vpc.id
   subnets             = module.vpc.public_subnets
@@ -59,7 +59,7 @@ module "alb" {
 }
 
 module "ecr" {
-  source      = "./ecr"
+  source      = "/Users/sanj/Documents/production/tf-ecs-fargate-tmpl/modules/ecr"
   name        = var.name
   environment = var.environment
 }
@@ -73,13 +73,14 @@ module "ecr" {
 }
 */
 module "ecs" {
-  source                      = "./modules/ecs"
+  source                      = "/Users/sanj/Documents/production/tf-ecs-fargate-tmpl/modules/ecs"
   name                        = var.name
   environment                 = var.environment
   region                      = var.aws-region
   subnets                     = module.vpc.private_subnets
   aws_alb_target_group_arn    = module.alb.aws_alb_target_group_arn
   ecs_service_security_groups = [module.security_groups.ecs_tasks]
+  container_image             = var.container_image
   container_port              = var.container_port
   container_cpu               = var.container_cpu
   container_memory            = var.container_memory
@@ -91,7 +92,7 @@ module "ecs" {
     value = var.container_port }
   ]
   #container_secrets      = module.secrets.secrets_map
-  aws_ecr_repository_url = module.ecr.aws_ecr_repository_url
+  #aws_ecr_repository_url = module.ecr.aws_ecr_repository_url
   #container_secrets_arns = module.secrets.application_secrets_arn
 }
 

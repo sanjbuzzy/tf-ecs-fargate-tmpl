@@ -3,7 +3,7 @@
 # make sure to not commit any secret values to git!
 # you could put them in secrets.tfvars which is in .gitignore
 
-
+/*
 resource "aws_secretsmanager_secret" "application_secrets" {
   count = length(var.application-secrets)
   name  = "${var.name}-application-secrets-${var.environment}-${element(keys(var.application-secrets), count.index)}"
@@ -34,4 +34,4 @@ output "application_secrets_arn" {
 output "secrets_map" {
   value = local.secretMap
 }
-
+*/

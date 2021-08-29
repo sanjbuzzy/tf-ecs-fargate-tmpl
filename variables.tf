@@ -9,13 +9,13 @@ variable "environment" {
 
 variable "region" {
   description = "the AWS region in which resources are created, you must set the availability_zones variable as well if you define this value to something other than the default"
-  default     = "eu-central-1"
+  default     = "ap-southeast-1"
 }
 
 variable "aws-region" {
   type        = string
   description = "AWS region to launch servers."
-  default     = "eu-central-1"
+  default     = "ap-southeast-1"
 }
 
 variable "aws-access-key" {
@@ -26,10 +26,10 @@ variable "aws-secret-key" {
   type = string
 }
 
-variable "application-secrets" {
+/*variable "application-secrets" {
   description = "A map of secrets that is passed into the application. Formatted like ENV_VAR = VALUE"
   type        = map
-}
+}*/
 
 
 variable "availability_zones" {
@@ -79,4 +79,7 @@ variable "health_check_path" {
 
 variable "tsl_certificate_arn" {
   description = "The ARN of the certificate that the ALB uses for https"
+}
+variable "container_image" {
+  description = "Docker image to be launched"
 }
